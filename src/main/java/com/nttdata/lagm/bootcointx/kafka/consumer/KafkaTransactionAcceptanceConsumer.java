@@ -1,12 +1,10 @@
 package com.nttdata.lagm.bootcointx.kafka.consumer;
 
-import java.util.stream.StreamSupport;
-
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.common.header.Headers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
@@ -34,7 +32,7 @@ public class KafkaTransactionAcceptanceConsumer {
 //    }
 
     @KafkaListener(
-		topics = "TOPIC-Transaction-Acceptance", 
+		topics = "#{'${kafka.topic.topicTransactionAcceptance}'}", 
 		groupId = "bootcamp2022",
 		containerFactory = "kafkaListenerContainerFactory")
     public void consume(ConsumerRecord<String, TransactionAcceptance> cr,
