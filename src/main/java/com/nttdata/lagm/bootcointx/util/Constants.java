@@ -8,5 +8,5 @@ public class Constants {
 	
 	public static final String TRANSACTION_TYPE_YANQUI = "YANQUI";
 	public static final String TRANSACTION_TYPE_TRANSFER = "TRANSFERENCIA";
-	public static final String TRANSACTION_TYPE_UNDEFINED = "UNDEFINED";
+	public static final String TRANSACTION_TYPE_UNDEFINED = "UNDEFINED";;
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nttdata.lagm.bootcointx.dto.request.TransferRequestDto;
+import com.nttdata.lagm.bootcointx.kafka.producer.KafkaStringProducer;
 import com.nttdata.lagm.bootcointx.model.Buyer;
 import com.nttdata.lagm.bootcointx.model.ExchangeRate;
 import com.nttdata.lagm.bootcointx.model.Seller;
@@ -26,6 +27,13 @@ public class TransactionServiceImpl implements TransactionService {
 	
 	@Autowired
 	private TransactionRepository transactionRepository;
+	
+	private final KafkaStringProducer kafkaStringProducer;
+	
+	@Autowired
+	TransactionServiceImpl(KafkaStringProducer kafkaStringProducer) {
+        this.kafkaStringProducer = kafkaStringProducer;
+    }
 	
 	public Mono<Transaction> create(TransactionAcceptance transactionAcceptance) {
 		Transaction transaction = new Transaction();
@@ -55,11 +63,12 @@ public class TransactionServiceImpl implements TransactionService {
 					transferRequestDto.setTargetAccountNumber(transactionAcceptance.getAccountNumber());
 					
 					movementProxy.transfer(transferRequestDto).subscribe();
+					kafkaStringProducer.sendMessage(Constants.STATUS_COMPLETED + ":" + transactionAcceptance.getTransactionId());
+					
 				} else if (Constants.TRANSACTION_TYPE_YANQUI.equalsIgnoreCase(transactionType)) {
 					// TODO Invoca transferir en aplicativo Yanqui
-					
+					kafkaStringProducer.sendMessage(Constants.STATUS_COMPLETED + ":" + transactionAcceptance.getTransactionId());
 				}
-				
 				
 				return Mono.just(tx);
 			});
