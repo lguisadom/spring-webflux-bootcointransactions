@@ -12,12 +12,12 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
-import com.nttdata.lagm.bootcointx.kafka.message.TransactionAcceptanceMessage;
+import com.nttdata.lagm.bootcointx.model.TransactionAcceptance;
 
 @Configuration
 public class KafkaProducerTransactionAcceptanceConfig {
 
-    public ProducerFactory<String, TransactionAcceptanceMessage> transactionAcceptanceProducerFactory() {
+    public ProducerFactory<String, TransactionAcceptance> transactionAcceptanceProducerFactory() {
         Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -26,7 +26,7 @@ public class KafkaProducerTransactionAcceptanceConfig {
     }
 
     @Bean(name = "kafkaProducerTransactionAcceptanceTemplate")
-    public KafkaTemplate<String, TransactionAcceptanceMessage> kafkaProducerTemplate() {
+    public KafkaTemplate<String, TransactionAcceptance> kafkaProducerTemplate() {
         return new KafkaTemplate<>(transactionAcceptanceProducerFactory());
     }
 }

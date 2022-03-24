@@ -10,7 +10,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
-import com.nttdata.lagm.bootcointx.kafka.message.TransactionAcceptanceMessage;
+import com.nttdata.lagm.bootcointx.model.TransactionAcceptance;
 
 @Component
 public class KafkaTransactionAcceptanceConsumer {
@@ -32,10 +32,12 @@ public class KafkaTransactionAcceptanceConsumer {
 		topics = "TOPIC-Transaction-Acceptance", 
 		groupId = "bootcamp2022",
 		containerFactory = "kafkaListenerContainerFactory")
-    public void consume(ConsumerRecord<String, TransactionAcceptanceMessage> cr,
-            @Payload TransactionAcceptanceMessage payload) {
-    	LOGGER.info("Logger 1 [JSON] received key {}: Type [{}] | Payload: {} | Record: {}", 
-    			cr.key(), typeIdHeader(cr.headers()), payload, cr.toString());
+    public void consume(ConsumerRecord<String, TransactionAcceptance> cr,
+            @Payload TransactionAcceptance payload) {
+//    	LOGGER.info("Logger 1 [JSON] received key {}: Type [{}] | Payload: {} | Record: {}", 
+//    			cr.key(), typeIdHeader(cr.headers()), payload, cr.toString());
+    	LOGGER.info("Logger 1 [JSON] received Payload: {} ", 
+    			payload);
     }
     
     private static String typeIdHeader(Headers headers) {
