@@ -7,6 +7,7 @@ public class TransactionAcceptance {
 	private String id;
 	private String transactionId;
 	private String sellerIdentification;
+	private String accountNumber;
 	private TransactionRequest transactionRequest;
 	private ExchangeRate exchangeRate;
 	// @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
